@@ -4,17 +4,16 @@ export class QuickListingsForm extends Component {
   render() {
     return (
       <div className="quick-listings-form">
-        <form onSubmit={this.props.handleSubmit}>
-          <p>
-            Notice:
-            <input type="text" value={this.props.notice} onChange={this.props.handleNoticeChange} />
-          </p>
-          <p>
-            Character Name:
-            <input type="text" value={this.props.name} onChange={this.props.handleNameChange} />
-          </p>
-          <input type="submit" value="Submit" />
-        </form>
+        {this.props.error ? <p className="error-message">Please enter a notice message and your character name.</p> : null}
+        <p>
+          Notice: {this.props.newNotice}
+          <input type="text" value={this.props.notice} onChange={this.props.handleNoticeChange} />
+        </p>
+        <p>
+          Character Name: {this.props.newName}
+          <input type="text" value={this.props.name} onChange={this.props.handleNameChange} />
+        </p>
+        <label className="submit-button" onClick={this.props.handleSubmit}>Submit</label>
       </div>
     );
   }

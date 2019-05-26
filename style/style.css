@@ -24,11 +24,11 @@ hr {
   margin-top: 1.5em;
 }
 
-.quick-listings-refresh {
+.quick-listings-refresh, .submit-button {
   background-color: lightgrey;
 }
 
-.quick-listings-refresh:hover {
+.quick-listings-refresh:hover, .submit-button:hover {
   background-color: grey;
 }
 
@@ -41,7 +41,7 @@ hr {
   background-color: rgb(250, 213, 3);
 }
 
-.quick-listings-refresh, .quick-listings-new-post {
+.quick-listings-refresh, .quick-listings-new-post, .submit-button {
   padding: 0.4em;
   border-radius: 10px;
   border: solid 1px grey;
@@ -56,4 +56,8 @@ hr {
 
 .quick-listings-form p input {
   margin-left: 0.5em;
+}
+
+.error-message {
+  color: red;
 }
