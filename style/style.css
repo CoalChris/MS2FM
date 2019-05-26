@@ -1,3 +1,59 @@
 h1, p {
   font-family: Lato;
 }
+
+hr {
+  color: lightgrey;
+}
+
+.quick-listings {
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+}
+
+.quick-listing-title, .quick-listings-refresh {
+  margin-left: 1em;
+}
+
+.quick-listing-name, .quick-listings-new-post {
+  float: right;
+  margin-right: 1em;
+}
+
+.quick-listings-buttons {
+  margin-top: 1.5em;
+}
+
+.quick-listings-refresh {
+  background-color: lightgrey;
+}
+
+.quick-listings-refresh:hover {
+  background-color: grey;
+}
+
+.quick-listings-new-post {
+  margin-top: -0.5em;
+  background-color: yellow;
+}
+
+.quick-listings-new-post:hover {
+  background-color: rgb(250, 213, 3);
+}
+
+.quick-listings-refresh, .quick-listings-new-post {
+  padding: 0.4em;
+  border-radius: 10px;
+  border: solid 1px grey;
+  cursor: pointer;
+}
+
+.quick-listings-form {
+  margin-top: 2em;
+  text-align: right;
+  margin-right: 1em;
+}
+
+.quick-listings-form p input {
+  margin-left: 0.5em;
+}

@@ -1,0 +1,14 @@
+.quick-listing-title {
+  margin-left: 2em;
+  float: left;
+  background-color: red;
+  color: blue;
+}
+
+.quick-listing-name {
+  float: right;
+}
+
+p {
+  background-color: red;
+}
