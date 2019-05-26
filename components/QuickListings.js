@@ -3,6 +3,8 @@ import { QuickListingsDisplay } from './QuickListingsDisplay';
 import { QuickListingsRefresh } from './QuickListingsRefresh';
 import { QuickListingsNewPost } from './QuickListingsNewPost';
 import { QuickListingsForm } from './QuickListingsForm';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 const quickListings = [
   {
