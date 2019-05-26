@@ -3,10 +3,9 @@ import { QuickListingsDisplay } from './QuickListingsDisplay';
 import { QuickListingsRefresh } from './QuickListingsRefresh';
 import { QuickListingsNewPost } from './QuickListingsNewPost';
 import { QuickListingsForm } from './QuickListingsForm';
-import firebase from 'firebase/app';
-import 'firebase/firestore';
+import firebase from './firebase/firebase.js';
 
-const quickListings = [
+/*const quickListings = [
   {
     author: 'bob',
     title: 'R>Rog Any',
@@ -17,14 +16,37 @@ const quickListings = [
     title: 'S>Pepegas 1m',
     name: 'HelloMemes'
   }
-];
+];*/
+
+var qListings = [
+  {
+    author: 'bob',
+    name: 'R>Rog Any',
+    title: 'Bobbie',
+  },
+  {
+    author: 'memelord',
+    name: 'S>Pepegas 1m',
+    title: 'HelloMemes'
+  }
+]
 
 export class QuickListings extends Component {
   constructor(props) {
     super(props);
-    const tempArray = quickListings.map(object => ({ ...object }));
+    //const tempArray = quickListings.map(object => ({ ...object }));
+    const db = firebase.firestore();
+    db.settings({ timestampsInSnapshots: true});
+    db.collection("quick-listings").get().then((querySnapshot) => {
+      querySnapshot.forEach((item) => {    
+          let string = JSON.parse(JSON.stringify(item.data()));
+          console.log(string);
+          qListings.push(string);
+      });
+    });
+    console.log(qListings);
     this.state = {
-      listings: tempArray,
+      listings: qListings,
       newPost: false,
       newNotice: '',
       newName: '',
