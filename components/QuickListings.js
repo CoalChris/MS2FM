@@ -5,7 +5,7 @@ import { QuickListingsNewPost } from './QuickListingsNewPost';
 import { QuickListingsForm } from './QuickListingsForm';
 import firebase from './firebase/firebase.js';
 
-/*const quickListings = [
+const quickListings = [
   {
     author: 'bob',
     title: 'R>Rog Any',
@@ -16,37 +16,27 @@ import firebase from './firebase/firebase.js';
     title: 'S>Pepegas 1m',
     name: 'HelloMemes'
   }
-];*/
+];
 
-var qListings = [
-  {
-    author: 'bob',
-    name: 'R>Rog Any',
-    title: 'Bobbie',
-  },
-  {
-    author: 'memelord',
-    name: 'S>Pepegas 1m',
-    title: 'HelloMemes'
+async function getListings() {
+  try {
+    const db = firebase.firestore();
+    await db.collection("quick-listings").get().then((querySnapshot) => {
+      querySnapshot.forEach((item) => {    
+          quickListings.push(JSON.parse(JSON.stringify(item.data())));
+      });
+    });
+  } catch(e) {
+    return null;
   }
-]
+}
 
 export class QuickListings extends Component {
   constructor(props) {
     super(props);
     //const tempArray = quickListings.map(object => ({ ...object }));
-    const db = firebase.firestore();
-    db.settings({ timestampsInSnapshots: true});
-    db.collection("quick-listings").get().then((querySnapshot) => {
-      querySnapshot.forEach((item) => {    
-          let string = JSON.parse(JSON.stringify(item.data()));
-          console.log(string);
-          qListings.push(string);
-      });
-    });
-    console.log(qListings);
     this.state = {
-      listings: qListings,
+      listings: quickListings,
       newPost: false,
       newNotice: '',
       newName: '',
@@ -58,6 +48,11 @@ export class QuickListings extends Component {
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
+  }
+
+  async componentDidMount() {
+    await getListings();
+    this.setState({ready: true});
   }
 
   handleNewPost(e) {
@@ -82,9 +77,10 @@ export class QuickListings extends Component {
     }
   }
 
-  handleRefresh(e) {
-    const tempArray = quickListings.map(object => ({ ...object }));
-    this.setState({listings: tempArray});
+  async handleRefresh(e) {
+    quickListings.length = 0;
+    await getListings();
+    this.setState({ready: true});
   }
 
   render() {
