@@ -7,12 +7,10 @@ import firebase from './firebase/firebase.js';
 
 const quickListings = [
   {
-    author: 'bob',
     title: 'R>Rog Any',
     name: 'Bobbie'
   },
   {
-    author: 'memelord',
     title: 'S>Pepegas 1m',
     name: 'HelloMemes'
   }
@@ -20,6 +18,7 @@ const quickListings = [
 
 async function getListings() {
   try {
+    quickListings.length = 0;
     const db = firebase.firestore();
     await db.collection("quick-listings").get().then((querySnapshot) => {
       querySnapshot.forEach((item) => {    
@@ -27,6 +26,20 @@ async function getListings() {
       });
     });
   } catch(e) {
+    console.error("Error retrieving listings: ", e);
+    return null;
+  }
+}
+
+async function addListing(listing) {
+  try {
+    const db = firebase.firestore();
+    await db.collection("quick-listings").doc(listing.author).set({
+      title: listing.title,
+      name: listing.name
+    });
+  } catch(e) {
+    console.error("Error: ", e);
     return null;
   }
 }
@@ -67,10 +80,12 @@ export class QuickListings extends Component {
     this.setState({newName: e.target.value});
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     if (this.state.newNotice && this.state.newName) {
       const submission = {author: 'Username', title: this.state.newNotice, name: this.state.newName};
-      const updatedList = this.state.listings.push(submission);
+      await addListing(submission);
+      await getListings();
+      //const updatedList = this.state.listings.push(submission);
       this.setState({newPost: false, submitError: false});
     } else {
       this.setState({submitError: true});
@@ -78,7 +93,6 @@ export class QuickListings extends Component {
   }
 
   async handleRefresh(e) {
-    quickListings.length = 0;
     await getListings();
     this.setState({ready: true});
   }
