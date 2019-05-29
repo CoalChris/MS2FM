@@ -8,11 +8,13 @@ import firebase from './firebase/firebase.js';
 const quickListings = [
   {
     title: 'R>Rog Any',
-    name: 'Bobbie'
+    name: 'Bobbie',
+    server: 'OCE'
   },
   {
     title: 'S>Pepegas 1m',
-    name: 'HelloMemes'
+    name: 'HelloMemes',
+    server: 'NAE'
   }
 ];
 
@@ -36,7 +38,8 @@ async function addListing(listing) {
     const db = firebase.firestore();
     await db.collection("quick-listings").doc(listing.author).set({
       title: listing.title,
-      name: listing.name
+      name: listing.name,
+      server: listing.server
     });
   } catch(e) {
     console.error("Error: ", e);
@@ -53,12 +56,14 @@ export class QuickListings extends Component {
       newPost: false,
       newNotice: '',
       newName: '',
+      newServer: null,
       submitError: false
     };
 
     this.handleNewPost = this.handleNewPost.bind(this);
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleServerChnge = this.handleServerChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
   }
@@ -80,9 +85,13 @@ export class QuickListings extends Component {
     this.setState({newName: e.target.value});
   }
 
+  handleServerChange(e) {
+    this.setState({newServer: e.target.value});
+  }
+
   async handleSubmit(e) {
     if (this.state.newNotice && this.state.newName) {
-      const submission = {author: 'Username', title: this.state.newNotice, name: this.state.newName};
+      const submission = {author: 'Username', title: this.state.newNotice, name: this.state.newName, server: this.state.newServer};
       await addListing(submission);
       await getListings();
       //const updatedList = this.state.listings.push(submission);
@@ -105,7 +114,7 @@ export class QuickListings extends Component {
         <div className="quick-listings-buttons">
           <QuickListingsRefresh handleRefresh={this.handleRefresh} />
           <QuickListingsNewPost handleNewPost={this.handleNewPost} newPost={this.state.newPost} />
-          {this.state.newPost ? <QuickListingsForm handleNoticeChange={this.handleNoticeChange} handleNameChange={this.handleNameChange} newNotice={this.state.newNotice} newName={this.state.newName} handleSubmit={this.handleSubmit} error={this.state.submitError} /> : null}
+          {this.state.newPost ? <QuickListingsForm handleNoticeChange={this.handleNoticeChange} handleNameChange={this.handleNameChange} handleServerChange={this.handleServerChange} newNotice={this.state.newNotice} newName={this.state.newName} newServer={this.state.newServer} handleSubmit={this.handleSubmit} error={this.state.submitError} /> : null}
         </div>
       </div>
     );
