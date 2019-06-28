@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { render } from 'react-dom';
 import Hello from './components/Hello';
 import { Navbar } from './components/Navbar';
+//import { Signin } from './components/Signin';
 import { QuickListings } from './components/QuickListings';
 import './style/style.css';
 
