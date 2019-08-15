@@ -9,7 +9,7 @@ export class QuickListingsDisplay extends Component {
         <hr />
         <div className="quick-listings">
           {this.props.listings.map(listing => (
-            <QuickListing key={listing.author} title={listing.title} name={listing.name} />
+            <QuickListing key={listing.key} title={listing.title} name={listing.name} />
           ))}
         </div>
       </div>

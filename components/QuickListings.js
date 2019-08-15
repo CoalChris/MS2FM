@@ -36,7 +36,7 @@ async function getListings() {
 async function addListing(listing) {
   try {
     const db = firebase.firestore();
-    await db.collection("quick-listings").doc(listing.author).set({
+    await db.collection("quick-listings").doc(listing.key).set({
       title: listing.title,
       name: listing.name,
       server: listing.server
@@ -56,14 +56,14 @@ export class QuickListings extends Component {
       newPost: false,
       newNotice: '',
       newName: '',
-      newServer: null,
+      newServer: '',
       submitError: false
     };
 
     this.handleNewPost = this.handleNewPost.bind(this);
     this.handleNoticeChange = this.handleNoticeChange.bind(this);
     this.handleNameChange = this.handleNameChange.bind(this);
-    this.handleServerChnge = this.handleServerChange.bind(this);
+    this.handleServerChange = this.handleServerChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleRefresh = this.handleRefresh.bind(this);
   }
@@ -91,7 +91,7 @@ export class QuickListings extends Component {
 
   async handleSubmit(e) {
     if (this.state.newNotice && this.state.newName) {
-      const submission = {author: 'Username', title: this.state.newNotice, name: this.state.newName, server: this.state.newServer};
+      const submission = {key: this.state.newServer + this.state.newName, title: this.state.newNotice, name: this.state.newName, server: this.state.newServer};
       await addListing(submission);
       await getListings();
       //const updatedList = this.state.listings.push(submission);
